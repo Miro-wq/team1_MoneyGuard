@@ -1,24 +1,27 @@
 {
-  "name": "parcel-project-template",
+  "name": "team1_MoneyGuard",
   "version": "2.0.0",
   "description": "",
-  "homepage": "https://goitacademy.github.io/parcel-project-template",
+  "homepage": "https://cristianf09.github.io/team1_MoneyGuard",
   "scripts": {
     "start": "parcel src/*.html",
-    "build": "parcel build src/*.html --public-url /parcel-project-template/"
+    "build": "parcel build src/*.html --public-url /team1_MoneyGuard/"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/goitacademy/parcel-project-template.git"
+    "url": "git+https://github.com/cristianf09/team1_MoneyGuard.git"
   },
   "keywords": [],
   "author": "Alexander Repeta <alexander.repeta@gmail.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/goitacademy/parcel-project-template/issues"
+    "url": "https://github.com/cristianf09/team1_MoneyGuard/issues"
   },
   "dependencies": {
-    "modern-normalize": "^1.1.0"
+    "axios": "^1.7.7",
+    "formik": "^2.4.6",
+    "modern-normalize": "^1.1.0",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@parcel/transformer-sass": "^2.6.0",
