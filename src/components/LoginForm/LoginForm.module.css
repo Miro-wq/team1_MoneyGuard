@@ -5,6 +5,7 @@
   width: 100vw;
   height: 100vh;
   background: rgba(0, 0, 0, 0.6);
+  display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
@@ -18,7 +19,7 @@
   max-width: 90%;
   text-align: center;
   position: relative;
-  background-image: url('./assets/registrationBackground.png');
+  background-image: url('./assets/loginBackground.png');
   background-size: cover;
   background-position: center;
 }
@@ -73,19 +74,4 @@
 
 .btn:hover {
   background-color: #45a049;
-}
-
-.btnAlt {
-  padding: 10px 15px;
-  border: none;
-  color: #fff;
-  background-color: #2196f3;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  margin-top: 10px;
-}
-
-.btnAlt:hover {
-  background-color: #1976d2;
 }
