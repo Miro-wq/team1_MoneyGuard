@@ -5,9 +5,12 @@ import Dashboard from '../../Pages/DashboardPage/DashboardPage';
 import Statistics from '../../Pages/Statistics/Statistics';
 import PrivateRoutes from '../../routes/PrivateRoutes';
 import PublicRoutes from '../../routes/PublicRoutes';
+import Header from '../Header/Header';
 
 const App = () => {
   return (
+    <>
+    <Header />
     <Routes>
       <Route element={<PublicRoutes />}>
         <Route path="/" element={<Home />} />
@@ -17,6 +20,7 @@ const App = () => {
         <Route path="/statistics" element={<Statistics />} />
       </Route>
     </Routes>
+    </>
   );
 };
 
