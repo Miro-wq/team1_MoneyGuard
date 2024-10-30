@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import styles from './LoginFormModal.module.css';
-import icon from '../../assets/icon.png'; 
+import icon from '../../assets/icon.png';
+import iconEmail from '../../assets/icon_Email.svg';
+import iconLock from '../../assets/icon_lacat.svg';
+import iconLine from '../../assets/icon_Linie.png';
 
 const LoginFormModal = ({ onClose }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -24,7 +27,6 @@ const LoginFormModal = ({ onClose }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Login Data:', loginData);
-  
   };
 
   return (
@@ -35,7 +37,7 @@ const LoginFormModal = ({ onClose }) => {
         
         <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.inputField}>
-            <i className="fas fa-envelope"></i>
+            <img src={iconEmail} alt="Email Icon" className={styles.inputIcon} />
             <input
               type="email"
               name="email"
@@ -44,9 +46,11 @@ const LoginFormModal = ({ onClose }) => {
               onChange={handleChange}
               required
             />
+            <img src={iconLine} alt="Line Decoration" className={styles.inputLine} />
           </div>
+          
           <div className={styles.inputField}>
-            <i className="fas fa-lock"></i>
+            <img src={iconLock} alt="Password Icon" className={styles.inputIcon} />
             <input
               type={isPasswordVisible ? 'text' : 'password'}
               name="password"
@@ -55,14 +59,15 @@ const LoginFormModal = ({ onClose }) => {
               onChange={handleChange}
               required
             />
+            <img src={iconLine} alt="Line Decoration" className={styles.inputLine} />
             <i
-              className={`fas ${isPasswordVisible ? 'fa-eye-slash' : 'fa-eye'}`}
+              className={`${styles.passwordToggle} fas ${isPasswordVisible ? 'fa-eye-slash' : 'fa-eye'}`}
               onClick={togglePasswordVisibility}
-              style={{ cursor: 'pointer', marginLeft: '8px' }}
             ></i>
           </div>
-          <button type="submit" className={styles.btn}>Log In</button>
-          <button type="button" className={styles.btn} onClick={() => console.log("Register clicked")}>Register</button>
+
+          <button type="submit" className={styles.loginButton}>Log In</button>
+          <button type="button" className={styles.registerButton}>Register</button>
         </form>
       </div>
     </div>
