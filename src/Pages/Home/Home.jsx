@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { fetchTransactions, fetchCategories } from '../../redux/TransactionSlice';
+import {
+  fetchTransactions,
+  fetchCategories,
+} from '../../redux/operations/transactionsOperations';
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -11,11 +14,7 @@ const Home = () => {
     dispatch(fetchCategories());
   }, [dispatch]);
 
-  return (
-    <div>
-      {/*aici restul paginii*/}
-    </div>
-  );
+  return <div>{/*aici restul paginii*/}</div>;
 };
 
 export default Home;

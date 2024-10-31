@@ -19,7 +19,7 @@
   max-width: 90%;
   text-align: center;
   position: relative;
-  background-image: url('./assets/registrationBackground.png');
+  background-image: url('./images/registerBackground.png');
   background-size: cover;
   background-position: center;
 }
