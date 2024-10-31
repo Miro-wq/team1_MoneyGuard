@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import styles from './LoginFormModal.module.css';
-import icon from '../../assets/icon.png';
-import iconEmail from '../../assets/icon_Email.svg';
-import iconLock from '../../assets/icon_lacat.svg';
-import iconLine from '../../assets/icon_Linie.png';
+import styles from './LoginForm.module.css';
+import icon from './images/icon.png';
+import iconEmail from './images/icon_Email.svg';
+import iconLock from './images/icon_Lacat.svg';
+import iconLine from './images/icon_Linie.png';
 
 const LoginFormModal = ({ onClose }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);

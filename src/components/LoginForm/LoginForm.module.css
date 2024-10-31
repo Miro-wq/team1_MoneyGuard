@@ -19,7 +19,7 @@
   max-width: 90%;
   text-align: center;
   position: relative;
-  background-image: url('./assets/loginBackground.png');
+  background-image: url('./images/loginBackground.png');
   background-size: cover;
   background-position: center;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
