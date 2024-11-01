@@ -16,7 +16,7 @@ const DashboardPage = () => {
     <>
       <Header />
       <section className={styles.section}>
-        <div className="container">
+        <div className={styles.container}>
           <div className={styles.sharedSectionElements}>
             <div className={styles.navAndBalanceContainer}>
               <Navigation />

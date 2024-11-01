@@ -8,6 +8,9 @@ const Home = () => {
     <div className={styles.homeTabContainer}>
       <TransactionsList />
       <ButtonAddTransactions />
+      <div className={styles.homeSection}>
+        <h2>test pt sectiunea HOME</h2>
+      </div>
     </div>
   );
 };

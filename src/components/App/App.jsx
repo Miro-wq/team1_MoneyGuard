@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import LoginPage from 'Pages/LoginPage/LoginPage';
 import DashboardPage from 'Pages/DashboardPage/DashboardPage';
@@ -7,35 +7,29 @@ import Home from 'Pages/Home/Home';
 import Statistics from 'Pages/Statistics/Statistics';
 import RegisterPage from 'Pages/RegisterPage/RegisterPage';
 import CurrencyTab from 'Pages/CurrencyTab/CurrencyTab';
+import PrivateRoutes from '../../routes/PrivateRoutes';
+import PublicRoutes from '../../routes/PublicRoutes';
 
 const App = () => {
   const user = useSelector(state => state.auth.user);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (user) {
-      navigate('/dashboard');
-    }
-  }, [user, navigate]);
 
   return (
     <Routes>
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
-      <Route
-        path="/dashboard"
-        element={user ? <DashboardPage /> : <LoginPage />}
-      />
-      <Route path="/home" element={user ? <Home /> : <LoginPage />} />
-      <Route
-        path="/statistics"
-        element={user ? <Statistics /> : <LoginPage />}
-      />
-      <Route
-        path="/currency"
-        element={user ? <CurrencyTab /> : <LoginPage />}
-      />
-      <Route path="*" element={<Home />} />
+      <Route element={<PublicRoutes user={user} />}>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/" element={<Home />} />
+      </Route>
+
+      <Route element={<PrivateRoutes user={user} />}>
+        <Route path="/dashboard" element={<DashboardPage />}>
+          <Route path="home" element={<Home />} />
+          <Route path="statistics" element={<Statistics />} />
+          <Route path="currency" element={<CurrencyTab />} />
+        </Route>
+      </Route>
+
+      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
 };
