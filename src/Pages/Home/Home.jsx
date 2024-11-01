@@ -1,15 +1,20 @@
-import ButtonAddTransactions from '../../components/ButtonAddTransactions/ButtonAddTransactions';
-import TransactionsList from '../../components/TransactionsList/TransactionsList';
-import React from 'react';
-import styles from './Home.module.css';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import {
+  fetchTransactions,
+  fetchCategories,
+} from '../../redux/operations/transactionsOperations';
 
 const Home = () => {
-  return (
-    <div className={styles.homeTabContainer}>
-      <TransactionsList />
-      <ButtonAddTransactions />
-    </div>
-  );
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchTransactions());
+
+    dispatch(fetchCategories());
+  }, [dispatch]);
+
+  return <div>{/*aici restul paginii*/}</div>;
 };
 
 export default Home;
