@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import LoginPage from 'Pages/LoginPage/LoginPage';
-import RegisterFormModal from 'components/RegistrationForm/RegistrationForm';
+// import RegisterFormModal from 'components/RegistrationForm/RegistrationForm';
 import DashboardPage from 'Pages/DashboardPage/DashboardPage';
 import Home from 'Pages/Home/Home';
 import Statistics from 'Pages/Statistics/Statistics';
