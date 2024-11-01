@@ -1,12 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
-import authReducer from './AuthSlice';
-import transactionReducer from './TransactionSlice';
-import globalReducer from './GlobalSlice';
+import authReducer from './slices/AuthSlice';
+import transactionsReducer from './slices/transactionsSlice';
+import globalReducer from './slices/GlobalSlice.jsx';
 
 const store = configureStore({
   reducer: {
     auth: authReducer,
-    transactions: transactionReducer,
+    transactions: transactionsReducer,
     global: globalReducer,
   },
 });

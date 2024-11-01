@@ -1,42 +1,60 @@
-import React, { useState } from 'react';
-import styles from './RegisterFormModal.module.css';
-import icon from '../../assets/icon.png';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { register } from '../../redux/operations/authOperations';
+import { clearError } from '../../redux/slices/AuthSlice';
+import styles from './RegistrationForm.module.css';
+import icon from './images/icon.png';
+import { auth } from '../../redux/selectors/authSelectors';
 
 const RegisterFormModal = ({ onClose }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
+  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
+    useState(false);
   const [registerData, setRegisterData] = useState({
     name: '',
     email: '',
     password: '',
     confirmPassword: '',
   });
-  const [error, setError] = useState('');
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { loading, error, user } = useSelector(auth);
 
-  const togglePasswordVisibility = () => setIsPasswordVisible((prev) => !prev);
-  const toggleConfirmPasswordVisibility = () => setIsConfirmPasswordVisible((prev) => !prev);
+  const togglePasswordVisibility = () => setIsPasswordVisible(prev => !prev);
+  const toggleConfirmPasswordVisibility = () =>
+    setIsConfirmPasswordVisible(prev => !prev);
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     const { name, value } = e.target;
-    setRegisterData((prevData) => ({
+    setRegisterData(prevData => ({
       ...prevData,
       [name]: value,
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
     if (registerData.password !== registerData.confirmPassword) {
-      setError('Passwords do not match');
+      alert('Passwords do not match');
       return;
     }
-    setError('');
+    dispatch(register(registerData));
     console.log('Register Data:', registerData);
   };
 
+  useEffect(() => {
+    if (user) {
+      navigate('/dashboard');
+    }
+    return () => {
+      dispatch(clearError());
+    };
+  }, [user, dispatch, navigate]);
+
   return (
     <div className={styles.modalOverlay} onClick={onClose}>
-      <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+      <div className={styles.modalContent} onClick={e => e.stopPropagation()}>
         <img src={icon} alt="Money Guard Icon" className={styles.icon} />
         <h1 className={styles.title}>Money Guard</h1>
 
@@ -91,15 +109,29 @@ const RegisterFormModal = ({ onClose }) => {
               required
             />
             <i
-              className={`fas ${isConfirmPasswordVisible ? 'fa-eye-slash' : 'fa-eye'}`}
+              className={`fas ${
+                isConfirmPasswordVisible ? 'fa-eye-slash' : 'fa-eye'
+              }`}
               onClick={toggleConfirmPasswordVisibility}
               style={{ cursor: 'pointer', marginLeft: '8px' }}
               aria-label="Toggle confirm password visibility"
             ></i>
           </div>
           {error && <p className={styles.error}>{error}</p>}
-          <button type="submit" className={styles.registerButton}>REGISTER</button>
-          <button type="button" className={styles.loginButton} onClick={() => console.log("Log In clicked")}>LOG IN</button>
+          <button
+            type="submit"
+            disabled={loading}
+            className={styles.registerButton}
+          >
+            REGISTER
+          </button>
+          <button
+            type="button"
+            className={styles.loginButton}
+            onClick={() => navigate('/login')}
+          >
+            LOG IN
+          </button>
         </form>
       </div>
     </div>

@@ -3,29 +3,33 @@ import Balance from '../../components/Balance/Balance';
 import Header from '../../components/Header/Header';
 import Navigation from '../../components/Navigation/Navigation';
 import Currency from '../../components/Currency/Currency';
-import { Outlet } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
-import Loader from '../../components/Loader/Loader';
 import styles from './DashboardPage.module.css';
+import Loader from 'components/Loader/Loader';
+import { Outlet } from 'react-router-dom';
 
 const DashboardPage = () => {
+  // const dispatch = useDispatch();
   const isTablet = useMediaQuery({ query: '(min-width: 768px)' });
 
   return (
     <>
       <Header />
-      <div className={styles.deskContainer}>
-        <div className={styles.dashBoardContainer}>
-          <div className={styles.dashBoardBox}>
-            <Navigation />
-            <Balance />
+      <section className={styles.section}>
+        <div className="container">
+          <div className={styles.sharedSectionElements}>
+            <div className={styles.navAndBalanceContainer}>
+              <Navigation />
+              {isTablet && <Balance />}
+            </div>
+
+            {isTablet && <Currency />}
           </div>
-          {isTablet && <Currency />}
+          <Suspense fallback={<Loader />}>
+            <Outlet />
+          </Suspense>
         </div>
-        <Suspense fallback={<Loader />}>
-          <Outlet />
-        </Suspense>
-      </div>
+      </section>
     </>
   );
 };
