@@ -55,14 +55,14 @@ const StatisticsDashboard = () => {
         onChange={onMonthChange}
         options={optionsMonth}
         placeholder={selectedMonth.label}
-        styles={customStyles}
+        // styles={customStyles}
       />
       <Select
         value={selectedYear}
         onChange={onYearClick}
         options={optionsYears}
         placeholder={selectedYear.label}
-        styles={customStyles}
+        // styles={customStyles}
       />
     </div>
   );

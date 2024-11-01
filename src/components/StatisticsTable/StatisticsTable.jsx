@@ -1,2 +1,2 @@
-const StatisticsTable = () => { };
-export defaul StatisticsTable;
+const StatisticsTable = () => {};
+export default StatisticsTable;
