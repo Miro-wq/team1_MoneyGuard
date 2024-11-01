@@ -11,6 +11,11 @@
   justify-content: center;
 }
 
+.activeNavLink {
+  filter: drop-shadow(0px 3px 10px rgba(255, 255, 255, 0.6));
+}
+
+
 .styledNavLink {
   display: flex;
   justify-content: center;

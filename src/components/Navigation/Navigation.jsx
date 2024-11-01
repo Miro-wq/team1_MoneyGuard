@@ -12,7 +12,10 @@ const Navigation = () => {
     <nav className={styles.navStyledContainer}>
       <ul className={styles.navList}>
         <li>
-          <NavLink to="/home" className={styles.styledNavLink}>
+          <NavLink 
+            to="/dashboard/home" 
+            className={({ isActive }) => isActive ? `${styles.styledNavLink} ${styles.activeNavLink}` : styles.styledNavLink}
+          >
             <div>
               <svg width="38" height="38">
                 <use href={`${sprite}#homepage`} />
@@ -24,7 +27,10 @@ const Navigation = () => {
           </NavLink>
         </li>
         <li>
-          <NavLink to="/statistics" className={styles.styledNavLink}>
+          <NavLink 
+            to="/dashboard/statistics" 
+            className={({ isActive }) => isActive ? `${styles.styledNavLink} ${styles.activeNavLink}` : styles.styledNavLink}
+          >
             <div>
               <svg width="38" height="38">
                 <use href={`${sprite}#statistics`} />
@@ -37,7 +43,10 @@ const Navigation = () => {
         </li>
         {isMobile && (
           <li>
-            <NavLink to="/currency" className={styles.styledNavLink}>
+            <NavLink 
+              to="/dashboard/currency" 
+              className={({ isActive }) => isActive ? `${styles.styledNavLink} ${styles.activeNavLink}` : styles.styledNavLink}
+            >
               <div>
                 <svg width="38" height="38">
                   <use href={`${sprite}#dollar`} />
