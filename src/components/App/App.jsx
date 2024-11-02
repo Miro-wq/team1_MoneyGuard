@@ -9,6 +9,7 @@ import RegisterPage from 'Pages/RegisterPage/RegisterPage';
 import CurrencyTab from 'Pages/CurrencyTab/CurrencyTab';
 import PrivateRoutes from '../../routes/PrivateRoutes';
 import PublicRoutes from '../../routes/PublicRoutes';
+import ButtonAddTransactions from 'components/ButtonAddTransactions/ButtonAddTransactions';
 
 const App = () => {
   const user = useSelector(state => state.auth.user);
