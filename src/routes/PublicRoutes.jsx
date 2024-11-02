@@ -1,8 +1,18 @@
-import React from 'react';
+// PublicRoutes.jsx
 import { Navigate, Outlet } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-const PublicRoutes = ({ user }) => {
-  return !user ? <Outlet /> : <Navigate to="/dashboard" />;
+const PublicRoutes = ({ isAuthenticated }) => {
+  // Redirect to dashboard if user is already authenticated
+  if (isAuthenticated) {
+    return <Navigate to="/dashboard/home" replace />;
+  }
+
+  return <Outlet />;
+};
+
+PublicRoutes.propTypes = {
+  isAuthenticated: PropTypes.bool.isRequired,
 };
 
 export default PublicRoutes;

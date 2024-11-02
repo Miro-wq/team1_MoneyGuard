@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { register } from '../../redux/operations/authOperations';
 import { clearError } from '../../redux/slices/AuthSlice';
 import styles from './RegistrationForm.module.css';
-import icon from './images/icon.png';
+import logo from './images/logo.svg';
 import { auth } from '../../redux/selectors/authSelectors';
 
 const RegisterFormModal = ({ onClose }) => {
@@ -53,10 +53,9 @@ const RegisterFormModal = ({ onClose }) => {
   }, [user, dispatch, navigate]);
 
   return (
-    <div className={styles.modalOverlay} onClick={onClose}>
-      <div className={styles.modalContent} onClick={e => e.stopPropagation()}>
-        <img src={icon} alt="Money Guard Icon" className={styles.icon} />
-        <h1 className={styles.title}>Money Guard</h1>
+    <div className={styles.modalOverlay}>
+      <div className={styles.modalContent}>
+        <img src={logo} alt="Logo" className={styles.logo} />
 
         <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.inputField}>
