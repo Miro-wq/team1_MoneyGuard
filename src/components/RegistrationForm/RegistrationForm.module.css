@@ -5,7 +5,7 @@
   height: 100vh;
   width: 100vw;
   background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)),
-    url('../LoginForm/images/loginBackground.png');
+    url('../RegistrationForm/images/registerBackground.png');
   background-size: cover;
   background-position: center;
   position: fixed;
@@ -98,6 +98,14 @@
   text-align: center;
 }
 
+.fieldError {
+  color: #ff6596;
+  font-size: 12px;
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+}
+
 .registerButton {
   width: 300px;
   height: 50px;
@@ -125,6 +133,9 @@
 }
 
 .loginButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 300px;
   height: 50px;
   background: rgb(249, 249, 250);
@@ -137,6 +148,7 @@
   letter-spacing: 0.1em;
   font-weight: 400;
   color: #623f8b;
+  text-decoration: none;
 }
 
 .registerButton:hover,
@@ -144,4 +156,17 @@
   opacity: 0.9;
   transform: scale(0.99);
   transition: all 0.2s ease;
+}
+
+/* Style for PasswordStrengthBar */
+.inputField :global(.password-strength-bar) {
+  position: absolute;
+  bottom: -30px;
+  left: 0;
+  width: 100%;
+}
+
+.inputField :global(.password-strength-bar > div) {
+  height: 4px;
+  border-radius: 2px;
 }
