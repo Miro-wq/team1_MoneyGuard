@@ -1,56 +1,68 @@
-const Chart = () => {};
+import React from 'react';
+import { Doughnut } from 'react-chartjs-2';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+
+ChartJS.register(ArcElement, Tooltip, Legend);
+
+const Chart = () => {
+  const data = {
+    labels: [
+      'Car',
+      'Self care',
+      'Child care',
+      'Household products',
+      'Education',
+      'Leisure',
+      'Other expenses'
+    ],
+    datasets: [
+      {
+        data: [1500, 800, 2208.5, 300, 3400, 1230, 610],
+        backgroundColor: [
+          '#FCB69F',
+          '#FAD02E',
+          '#00A36C',
+          '#FF7676',
+          '#2F8FED',
+          '#A084E8',
+          '#43AA8B',
+        ],
+        borderWidth: 0,
+      },
+    ],
+  };
+
+  const options = {
+    responsive: true,
+    cutout: '80%',
+    plugins: {
+      legend: {
+        display: false,
+      },
+      tooltip: {
+        enabled: true,
+      },
+    },
+  };
+
+  return (
+    <div style={{ position: 'relative', width: '300px', height: '300px' }}>
+      <Doughnut data={data} options={options} />
+      <div
+        style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          fontSize: '24px',
+          fontWeight: 'bold',
+          color: '#fff',
+        }}
+      >
+        ₹24,000.00
+      </div>
+    </div>
+  );
+};
+
 export default Chart;
-
-// import React, { useEffect, useState } from 'react';
-// import { Line } from 'react-chartjs-2';
-// import { Chart as ChartJS, registerables } from 'chart.js';
-// import { useSelector } from 'react-redux';
-// import styles from './Chart.module.css';
-
-// ChartJS.register(...registerables);
-
-// const Chart = ({ selectedMonth, selectedYear }) => {
-//     const [chartData, setChartData] = useState({});
-//     const expenses = useSelector((state) => state.expenses);
-
-//     useEffect(() => {
-//         const fetchData = () => {
-//             if (!Array.isArray(expenses)) {
-//                 console.error('Expenses is not an array or is undefined:', expenses);
-//                 return;
-//             }
-
-//             const filteredExpenses = expenses.filter(expense => {
-//                 const expenseDate = new Date(expense.date);
-//                 return expenseDate.getMonth() + 1 === selectedMonth && expenseDate.getFullYear() === selectedYear;
-//             });
-
-//             const labels = filteredExpenses.map(expense => expense.category);
-//             const data = filteredExpenses.map(expense => expense.amount);
-
-//             setChartData({
-//                 labels: labels,
-//                 datasets: [
-//                     {
-//                         label: 'Cheltuieli',
-//                         data: data,
-//                         borderColor: 'rgba(75,192,192,1)',
-//                         backgroundColor: 'rgba(75,192,192,0.2)',
-//                         fill: true,
-//                     },
-//                 ],
-//             });
-//         };
-
-//         fetchData();
-//     }, [selectedMonth, selectedYear, expenses]);
-
-//     return (
-//         <div className={styles.chartContainer}>
-//             <h2 className={styles.chartTitle}>Cheltuieli Lunare</h2>
-//             <Line data={chartData} />
-//         </div>
-//     );
-// };
-
-// export default Chart;
