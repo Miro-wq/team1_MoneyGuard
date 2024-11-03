@@ -1,54 +1,46 @@
 import React, { useState } from 'react';
-import styles from './StatisticsDashboard.module.css';
+import CustomDropdown from '../CustomDropdown/CustomDropdown';
 
 const StatisticsDashboard = () => {
-  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
-  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  const [selectedMonth, setSelectedMonth] = useState(11);
+  const [selectedYear, setSelectedYear] = useState(2024);
 
   const months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
+    { value: 1, label: 'January' },
+    { value: 2, label: 'February' },
+    { value: 3, label: 'March' },
+    { value: 4, label: 'April' },
+    { value: 5, label: 'May' },
+    { value: 6, label: 'June' },
+    { value: 7, label: 'July' },
+    { value: 8, label: 'August' },
+    { value: 9, label: 'September' },
+    { value: 10, label: 'October' },
+    { value: 11, label: 'November' },
+    { value: 12, label: 'December' },
+  ];
+
+  const years = [
+    { value: 2020, label: '2020' },
+    { value: 2021, label: '2021' },
+    { value: 2022, label: '2022' },
+    { value: 2023, label: '2023' },
+    { value: 2024, label: '2024' },
   ];
 
   return (
-    <>
-      <div className={styles.statisticsDashboard}>
-        <div>
-          <select
-            id="month"
-            value={selectedMonth}
-            onChange={e => setSelectedMonth(Number(e.target.value))}
-          >
-            {months.map((month, index) => (
-              <option key={index} value={index + 1}>
-                {month}
-              </option>
-            ))}
-          </select>
-          <select
-            id="year"
-            value={selectedYear}
-            onChange={e => setSelectedYear(Number(e.target.value))}
-          >
-            {[2020, 2021, 2022, 2023, 2024].map(year => (
-              <option key={year} value={year}>
-                {year}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-    </>
+    <div style={{ display: 'flex', gap: '20px' }}>
+      <CustomDropdown
+        options={months}
+        selectedValue={selectedMonth}
+        onSelect={setSelectedMonth}
+      />
+      <CustomDropdown
+        options={years}
+        selectedValue={selectedYear}
+        onSelect={setSelectedYear}
+      />
+    </div>
   );
 };
 

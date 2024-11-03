@@ -18,7 +18,7 @@
   .section {
     padding-top: 0px;
     padding-bottom: 40px;
-    min-height: calc(100dvh - 159px);
+    min-height: calc(100dvh - 104px);
     padding-left: 32px;
     padding-right: 32px;
   }
