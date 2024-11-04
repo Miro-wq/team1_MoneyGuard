@@ -46,17 +46,11 @@ export const addTransaction = createAsyncThunk(
 // Edit Transaction
 export const editTransaction = createAsyncThunk(
   'transactions/editTransaction',
-  async ({ id, transactionData }, { rejectWithValue }) => {
-    const token = localStorage.getItem('token');
+  async ({ transactionId, transactionData }, { rejectWithValue }) => {
     try {
       const response = await axios.patch(
-        `${BASE_URL}/transactions/${id}`,
-        transactionData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        `${BASE_URL}/transactions/${transactionId}`,
+        transactionData
       );
       toast.success('Transaction modified successfully! ^_^');
       return response.data; // Returnează datele tranzacției editate

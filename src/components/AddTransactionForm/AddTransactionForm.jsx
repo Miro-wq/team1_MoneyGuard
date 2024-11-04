@@ -1,5 +1,5 @@
 import s from './AddTransactionForm.module.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -15,15 +15,20 @@ import { useDispatch } from 'react-redux';
 import { addTransaction } from '../../redux/operations/transactionsOperations';
 import { closeAddModal } from '../../redux/Modals/slice';
 import CustomDropIndicator from '../CustomDropIndicator/CustomDropIndicator';
+import { getTransactionsCategories } from '../../redux/Statistics/operations';
+import { getUserInfo } from '../../redux/operations/authOperations';
 
 function AddTransactionForm() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getTransactionsCategories());
+  }, [dispatch]);
   const categories = useSelector(selectCategories);
   const [isChecked, setIsChecked] = useState(false);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const handleChange = () => {
     setIsChecked(!isChecked);
   };
-  const dispatch = useDispatch();
 
   const categoriesForSelect = categories.map(category => ({
     value: category.id,
@@ -86,6 +91,7 @@ function AddTransactionForm() {
     delete data.switch;
 
     dispatch(addTransaction(data));
+    dispatch(getUserInfo());
     dispatch(closeAddModal());
   };
 

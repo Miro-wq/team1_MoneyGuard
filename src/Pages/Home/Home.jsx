@@ -11,11 +11,12 @@ import { selectAllTransactions } from '../../redux/selectors/transactionsSelecto
 import ModalDeleteTransaction from '../../components/ModalDeleteTransaction/ModalDeleteTransaction';
 import TransactionsDesktop from '../../components/TransactionsDesktop/TransactionsDesktop';
 import Balance from '../../components/Balance/Balance';
+import { selectIsAddModalOpen } from '../../redux/Modals/slice';
 
 const Home = () => {
   const dispatch = useDispatch();
   const screenCondition = useMediaQuery({ query: '(min-width: 768px)' });
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const isAddModalOpen = useSelector(selectIsAddModalOpen);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isEditModalOpen, setisEditModalOpen] = useState(false);
   const data = useSelector(selectAllTransactions);
@@ -51,9 +52,7 @@ const Home = () => {
       </div>
 
       <>
-        {isAddModalOpen && (
-          <ModalAddTransaction closeModal={() => setIsAddModalOpen(false)} />
-        )}
+        {isAddModalOpen && <ModalAddTransaction />}
 
         {isDeleteModalOpen && (
           <ModalDeleteTransaction
