@@ -1,44 +1,46 @@
-import React from 'react';
+import { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import EditTransactionForm from '../EditTransactionForm/EditTransactionForm';
-import style from './ModalEditTransaction.module.css';
+import styles from './ModalEditTransaction.module.css';
+import EditTransactionForm from 'components/EditTransactionForm/EditTransactionForm';
 
-const ModalEditTransaction = ({ isOpen, initialValues, onSubmit, onClose }) => {
-  if (!isOpen) return null;
+const ModalEditTransaction = ({ closeModal }) => {
+  const modalRef = useRef();
 
-  const handleBackgroundClick = e => {
-    if (e.target.className === 'modal-overlay') onClose();
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+
+    const addCloseEvent = event => {
+      event.key === 'Escape' && closeModal();
+    };
+    document.addEventListener('keydown', addCloseEvent);
+
+    return () => {
+      document.body.style.overflow = 'auto';
+      document.removeEventListener('keydown', addCloseEvent);
+    };
+  });
+
+  const closeOnClickOutside = event => {
+    event.target === event.currentTarget && closeModal();
   };
 
   return (
-    <div className={style['modal-overlay']} onClick={handleBackgroundClick}>
-      <div className={style['modal-content']}>
-        <button className={style['modal-close']} onClick={onClose}>
-          X
-        </button>
-        <h3>Edit Transaction</h3>
-        <EditTransactionForm
-          initialValues={initialValues}
-          onSubmit={onSubmit}
-        />
-        <button className={style['modal-cancel']} onClick={onClose}>
-          Cancel
-        </button>
+    <>
+      <div
+        ref={modalRef}
+        className={styles.editModal}
+        onClick={closeOnClickOutside}
+      >
+        <div className={styles.modalBg}>
+          <EditTransactionForm closeModal={closeModal} />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
 ModalEditTransaction.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  initialValues: PropTypes.shape({
-    type: PropTypes.oneOf(['income', 'expense']).isRequired,
-    sum: PropTypes.number.isRequired,
-    date: PropTypes.instanceOf(Date).isRequired,
-    comment: PropTypes.string,
-  }).isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  onClose: PropTypes.func.isRequired,
+  closeModal: PropTypes.func.isRequired,
 };
 
 export default ModalEditTransaction;

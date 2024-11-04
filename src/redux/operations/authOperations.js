@@ -49,3 +49,17 @@ export const logout = createAsyncThunk(
     }
   }
 );
+
+export const getUserInfo = createAsyncThunk(
+  'auth/getUserInfo',
+  async (_, thunkAPI) => {
+    try {
+      const response = await axios.get(`${BASE_URL}/users/current`);
+
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);

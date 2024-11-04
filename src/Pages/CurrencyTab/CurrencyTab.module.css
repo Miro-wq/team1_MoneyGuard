@@ -1,7 +1,13 @@
+body .container {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
 .tablewrapper {
   position: relative;
   background-color: rgba(74, 86, 226, 0.1);
-  width: 320px;
+  padding-top: 25px;
+  width: 280px;
   height: 220px;
   margin: 0 auto;
 
@@ -55,7 +61,7 @@
   padding-left: 25px;
 
   &:last-child {
-    padding-left: 46px;
+    padding-left: 38px;
   }
 
   @media only screen and (min-width: 1280px) {
@@ -95,14 +101,14 @@
 
   &::before {
     z-index: 1;
-    left: 39px;
-    top: 21px;
+    left: 33px;
+    top: 23px;
   }
 
   &::after {
     z-index: auto;
-    left: 242px;
-    top: -2px;
+    left: 211px;
+    top: 2px;
   }
 
   @media only screen and (min-width: 768px) {

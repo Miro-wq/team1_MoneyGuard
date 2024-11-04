@@ -7,7 +7,13 @@ import {
 
 const initialState = {
   summary: [],
-  categories: [],
+  categories: [
+    {
+      id: '063f1132-ba5d-42b4-951d-44011ca46262',
+      name: 'Income',
+      type: 'INCOME',
+    },
+  ],
   isStatisticsLoading: false,
   isStatisticsError: null,
 };

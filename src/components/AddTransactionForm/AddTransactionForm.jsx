@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux';
 import Select from 'react-select';
 import { customStyles } from './customStyles';
 import { useDispatch } from 'react-redux';
-import { addTransactions } from '../../redux/Transactions/operations';
+import { addTransaction } from '../../redux/operations/transactionsOperations';
 import { closeAddModal } from '../../redux/Modals/slice';
 import CustomDropIndicator from '../CustomDropIndicator/CustomDropIndicator';
 
@@ -85,7 +85,7 @@ function AddTransactionForm() {
 
     delete data.switch;
 
-    dispatch(addTransactions(data));
+    dispatch(addTransaction(data));
     dispatch(closeAddModal());
   };
 

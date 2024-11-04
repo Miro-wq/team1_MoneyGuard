@@ -1,70 +1,207 @@
-import React from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import styles from './EditTransactionForm.module.css';
 
-const EditTransactionForm = ({ initialValues, onSubmit }) => {
-  const validationSchema = Yup.object({
-    type: Yup.string.oneOf(['income', 'expense']).required('Type is required!'),
-    sum: Yup.number.required('Sum is required!'),
-    date: Yup.date.required('Date is required!'),
-    comment: Yup.string()
-      .max(200, 'Comment must be 200 characters or less')
-      .nullable(),
-  });
+import icons from '../images/icons/sprite.svg';
+import { useMediaQuery } from 'react-responsive';
+
+import { ErrorMessage, Field, Form, Formik } from 'formik';
+import * as Yup from 'yup';
+import { useDispatch } from 'react-redux';
+import ReactDatePicker, { registerLocale } from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import enUS from 'date-fns/locale/en-US'; // Importăm localizarea pentru engleză
+import {
+  transactionCategories,
+  getTransactionId,
+} from '../common/allCategories';
+
+import { useSelector } from 'react-redux';
+import { selectTransactionForUpdate } from '../../redux/selectors/transactionsSelector';
+import { editTransaction } from '../../redux/operations/transactionsOperations';
+import { getUserInfo } from '../../redux/operations/authOperations';
+import { FiCalendar } from 'react-icons/fi';
+import { Controller, useForm } from 'react-hook-form';
+import ButtonForm from '../ButtonForm/ButtonForm';
+
+// Înregistram localizarea pentru utilizarea în componenta ReactDatePicker
+registerLocale('en-US', enUS);
+
+const EditTransactionForm = ({ closeModal }) => {
+  const transactionForUpdate = useSelector(selectTransactionForUpdate);
+  const { control, setValue } = useForm(); // Declararea controlului și funcției setValue
+
+  const isOnIncomeTab = transactionForUpdate.type === 'INCOME' ? true : false;
+
+  const screenCondition = useMediaQuery({ query: '(min-width: 768px)' });
+
+  const dispatch = useDispatch();
+
+  const [startDate, setStartDate] = useState(
+    new Date(transactionForUpdate.transactionDate)
+  );
+  const initialValues = {
+    categoryId: transactionForUpdate.categoryId,
+    amount: transactionForUpdate.amount,
+    transactionDate: transactionForUpdate.transactionDate,
+    comment: transactionForUpdate.comment,
+  };
+
+  const validationSchema = isOnIncomeTab
+    ? Yup.object({
+        amount: Yup.string().required('Required*'),
+        comment: Yup.string().required('Required*'),
+      })
+    : Yup.object({
+        amount: Yup.string().required('Required*'),
+        comment: Yup.string().required('Required*'),
+        category: Yup.string().required('Required*'),
+      });
+
+  const handleSubmit = (values, { setSubmitting, setStatus }) => {
+    setSubmitting(true);
+    console.log(transactionForUpdate.id);
+
+    dispatch(
+      editTransaction({
+        transactionId: transactionForUpdate.id,
+        transactionData: {
+          transactionDate: startDate,
+          type: isOnIncomeTab ? 'INCOME' : 'EXPENSE',
+          categoryId: getTransactionId(
+            values.transactionCategories || 'Income'
+          ),
+          comment: values.comment,
+          amount: isOnIncomeTab ? values.amount : 0 - values.amount,
+        },
+      })
+    )
+      .unwrap()
+      .then(() => {
+        closeModal();
+        dispatch(getUserInfo());
+      })
+      .catch(error => {
+        setStatus({ success: false, error: error });
+        setSubmitting(false);
+      });
+  };
+
+  const handleDateChange = dateChange => {
+    setValue('transactionDate', dateChange, {
+      shouldDirty: true,
+    });
+    setStartDate(dateChange);
+  };
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={onSubmit}
-    >
-      {({ setFieldValue, isSubmitting }) => (
-        <Form>
-          <label>Type</label>
-          <Field as="select" name="type">
-            <option value="">Select Type</option>
-            <option value="income">Income</option>
-            <option value="expense">Expense</option>
-          </Field>
-          <ErrorMessage name="type" component="div" />
-
-          <label>Sum</label>
-          <Field type="number" name="sum" />
-          <ErrorMessage name="sum" component="div" />
-
-          <label>Date</label>
-          <DatePicker
-            selected={
-              (initialValues.date && new Date(initialValues.date)) || null
-            }
-            onChange={date => setFieldValue('date', date)}
-          />
-          <ErrorMessage name="date" component="div" />
-
-          <label>Comment</label>
-          <Field type="text" name="comment" />
-          <ErrorMessage name="comment" component="div" />
-
-          <button type="submit" disabled={isSubmitting}>
-            Save
-          </button>
-        </Form>
+    <div className={styles.modalContent}>
+      {screenCondition && (
+        <button className={styles.closeButton} onClick={() => closeModal()}>
+          <svg>
+            <use href={`${icons}#icon-close`}></use>
+          </svg>
+        </button>
       )}
-    </Formik>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+      >
+        {({ isSubmitting }) => (
+          <Form>
+            <h2 className={styles.formTitle}>Edit transaction</h2>
+
+            <div className={styles.switcheWrapper}>
+              <span className={`${isOnIncomeTab ? styles.income : null}`}>
+                Income
+              </span>
+              <span className={styles.delimeter}>/</span>
+              <span className={`${!isOnIncomeTab ? styles.expense : null}`}>
+                Expense
+              </span>
+            </div>
+
+            <div className={styles.inputWrapper}>
+              {!isOnIncomeTab && (
+                <div className={`${styles.inputField} ${styles.category}`}>
+                  <Field
+                    as="select"
+                    name="category"
+                    autoFocus
+                    required
+                    defaultValue={transactionForUpdate.categoryId}
+                  >
+                    <option value="">Select your category</option>
+                    {transactionCategories.map(item => (
+                      <option key={item.id} value={item.id}>
+                        {item.name}
+                      </option>
+                    ))}
+                  </Field>
+                  <ErrorMessage name="category" component="p" />
+                </div>
+              )}
+
+              <div className={`${styles.inputField} ${styles.amount}`}>
+                <Field
+                  type="number"
+                  name="amount"
+                  min="0.01"
+                  step="0.01"
+                  placeholder="0.00"
+                />
+                <ErrorMessage name="amount" component="p" />
+              </div>
+
+              <div className={`${styles.inputField} ${styles.date}`}>
+                <Controller
+                  name="transactionDate"
+                  control={control}
+                  defaultValue={startDate}
+                  render={() => (
+                    <ReactDatePicker
+                      selected={startDate}
+                      onChange={handleDateChange}
+                      dateFormat="dd.MM.yyyy"
+                      maxDate={new Date()}
+                      locale="en-US" // Setăm localizarea la engleză
+                      calendarStartDay={1} // Setăm începutul săptămânii la luni
+                    />
+                  )}
+                />
+                <FiCalendar className={styles.icon} />
+              </div>
+
+              <div className={`${styles.inputField} ${styles.comment}`}>
+                <Field type="text" name="comment" placeholder="Comment" />
+                <ErrorMessage name="comment" component="p" />
+              </div>
+            </div>
+
+            <div className={styles.buttonsWrapper}>
+              <ButtonForm
+                type={'submit'}
+                text={'save'}
+                variant={'multiColorButtton'}
+                isDisabled={isSubmitting}
+              />
+              <ButtonForm
+                type={'button'}
+                text={'cancel'}
+                variant={'whiteButtton'}
+                handlerFunction={() => closeModal()}
+              />
+            </div>
+          </Form>
+        )}
+      </Formik>
+    </div>
   );
 };
 
 EditTransactionForm.propTypes = {
-  initialValues: PropTypes.shape({
-    type: PropTypes.oneOf(['income', 'expense']).isRequired,
-    sum: PropTypes.number.isRequired,
-    date: PropTypes.instanceOf(Date).isRequired,
-    comment: PropTypes.string,
-  }).isRequired,
-  onSubmit: PropTypes.func.isRequired,
+  closeModal: PropTypes.func.isRequired,
 };
 
 export default EditTransactionForm;
