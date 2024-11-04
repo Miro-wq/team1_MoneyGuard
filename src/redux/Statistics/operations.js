@@ -29,9 +29,12 @@ export const getTransactionsCategories = createAsyncThunk(
   '/api/transaction-categories',
   async (_, thunkApi) => {
     try {
-      const { data } = await userTransactionsApi.get('');
-      console.log(data);
-      return data;
+      console.log('am intrat la categories');
+      const response = await userTransactionsApi.get(
+        '/api/transaction-categories'
+      );
+      console.log(response);
+      return response.data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
     }

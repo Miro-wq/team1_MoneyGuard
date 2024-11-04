@@ -7,13 +7,7 @@ import {
 
 const initialState = {
   summary: [],
-  categories: [
-    {
-      id: '063f1132-ba5d-42b4-951d-44011ca46262',
-      name: 'Income',
-      type: 'INCOME',
-    },
-  ],
+  categories: [],
   isStatisticsLoading: false,
   isStatisticsError: null,
 };
@@ -24,9 +18,10 @@ const slice = createSlice({
   extraReducers: builder => {
     builder
 
-      .addCase(getTransactionsCategories.fulfilled, (state, { payload }) => {
+      .addCase(getTransactionsCategories.fulfilled, (state, action) => {
         state.isStatisticsLoading = false;
-        state.categories = payload;
+        console.log(action.payload);
+        state.categories = action.payload;
       })
       .addCase(
         getTransactionsSummaryByPeriod.fulfilled,

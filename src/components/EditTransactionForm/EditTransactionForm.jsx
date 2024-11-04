@@ -55,12 +55,11 @@ const EditTransactionForm = ({ closeModal }) => {
     : Yup.object({
         amount: Yup.string().required('Required*'),
         comment: Yup.string().required('Required*'),
-        category: Yup.string().required('Required*'),
+        category: Yup.string(),
       });
 
   const handleSubmit = (values, { setSubmitting, setStatus }) => {
     setSubmitting(true);
-    console.log(transactionForUpdate.id);
 
     dispatch(
       editTransaction({

@@ -10,7 +10,6 @@ function ModalAddTransaction() {
   const dispatch = useDispatch();
 
   const isAddOpen = useSelector(selectIsAddModalOpen);
-
   return (
     <Modal
       isOpen={isAddOpen}

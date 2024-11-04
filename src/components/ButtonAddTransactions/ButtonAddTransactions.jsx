@@ -12,6 +12,7 @@ const ButtonAddTransaction = () => {
         className={s.btn}
         type="button"
         onClick={() => {
+          console.log('Butonul a fost apăsat');
           dispatch(openAddModal());
         }}
       >
