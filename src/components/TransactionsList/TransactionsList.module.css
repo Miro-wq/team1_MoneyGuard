@@ -1,34 +1,7 @@
-/* TransactionsList.module.css */
-
-.transactions-list {
+.TransactionList {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin-top: 32px;
   width: 100%;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-/* Desktop */
-@media (min-width: 1024px) {
-  .transactions-list {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-  }
-}
-
-/* Tablet */
-@media (min-width: 768px) and (max-width: 1023px) {
-  .transactions-list {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 15px;
-  }
-}
-
-/* Mobile */
-@media (max-width: 767px) {
-  .transactions-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
 }

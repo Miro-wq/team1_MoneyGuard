@@ -12,16 +12,17 @@ import CurrencyTab from 'Pages/CurrencyTab/CurrencyTab';
 import PrivateRoutes from '../../routes/PrivateRoutes';
 import PublicRoutes from '../../routes/PublicRoutes';
 import Loader from 'components/Loader/Loader';
+import { user } from '../../redux/selectors/authSelectors';
+import { useMediaQuery } from 'react-responsive';
 
 const App = () => {
-  const { isAuthenticated, isLoading } = useSelector(state => ({
-    isAuthenticated: Boolean(state.auth.user),
-    isLoading: state.auth.loading
-  }));
+  const isAuthenticated = Boolean(useSelector(user));
+  const isOnMobile = useMediaQuery({ query: '(max-width: 768px)' });
+  // const isLoading = useSelector(auth.loading);
 
-  if (isLoading) {
-    return <Loader />;
-  }
+  // if (isLoading) {
+  //   return <Loader />;
+  // }
 
   return (
     <>
@@ -40,16 +41,21 @@ const App = () => {
               <Route index element={<Home />} />
               <Route path="home" element={<Home />} />
               <Route path="statistics" element={<Statistics />} />
-              <Route path="currency" element={<CurrencyTab />} />
+              {isOnMobile && (
+                <Route path="currency" element={<CurrencyTab />} />
+              )}
             </Route>
           </Route>
 
           {/* Catch-all redirect */}
-          <Route 
-            path="*" 
+          <Route
+            path="*"
             element={
-              <Navigate to={isAuthenticated ? "/dashboard" : "/login"} replace />
-            } 
+              <Navigate
+                to={isAuthenticated ? '/dashboard' : '/login'}
+                replace
+              />
+            }
           />
         </Routes>
       </Suspense>

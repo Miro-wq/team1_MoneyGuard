@@ -45,7 +45,7 @@
 //     }),
 // };
 
-import { CgOverflow } from 'react-icons/cg';
+// import { CgOverflow } from 'react-icons/cg';
 
 export const customStyles = {
   option: provided => {
@@ -81,11 +81,10 @@ export const customStyles = {
     borderRadius: '8px',
     boxShadow: 'none',
     backgroundColor: 'rgba(74, 86, 226, 0.10)',
-    border: 0,
+    // border: 0,
 
     background: 'transparent',
-    color: 'transparent',
-    boxShadow: 'none',
+    // color: 'transparent',
     display: 'flex',
     flexWrap: 'nowrap',
     borderColor: 'transparent',

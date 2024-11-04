@@ -10,61 +10,66 @@ import {
 const initialState = {
   items: [],
   categories: [],
-  totalBalance: 0,
-  loading: false,
   error: null,
+  isLoading: false,
+  trasactionIdForDelete: '',
+  transactionForUpdate: {
+    id: '',
+    type: '',
+  },
 };
 
 const transactionsSlice = createSlice({
   name: 'transactions',
   initialState,
-  reducers: {},
+  reducers: {
+    setTrasactionIdForDelete: (state, action) => {
+      state.trasactionIdForDelete = action.payload;
+    },
+    setTrasactionForUpdate: (state, action) => {
+      state.transactionForUpdate = action.payload;
+      console.log(state.transactionForUpdate.id);
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(fetchTransactions.pending, state => {
-        state.loading = true;
-        state.error = null;
+        state.isLoading = true;
       })
       .addCase(fetchTransactions.fulfilled, (state, action) => {
-        state.items = action.payload.transactions;
-        state.totalBalance = action.payload.balance;
-        state.loading = false;
+        console.log('Transactios: ', action.payload);
+        state.items = action.payload;
+        state.error = null;
+        state.isLoading = false;
       })
       .addCase(fetchTransactions.rejected, (state, action) => {
-        state.loading = false;
+        state.error = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(addTransaction.pending, state => {
+        state.isLoading = true;
+      })
+      .addCase(addTransaction.rejected, (state, action) => {
+        state.isLoading = false;
         state.error = action.payload;
       })
       .addCase(addTransaction.fulfilled, (state, action) => {
-        const transaction = action.payload;
-        const { type, amount } = transaction;
-
-        state.items.push(transaction);
-        state.totalBalance += type === 'income' ? amount : -amount;
+        state.isLoading = false;
+        state.error = null;
+        state.items.push(action.payload);
+      })
+      .addCase(editTransaction.pending, state => {
+        state.isLoading = true;
+      })
+      .addCase(editTransaction.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
       })
       .addCase(editTransaction.fulfilled, (state, action) => {
-        const index = state.items.findIndex(
-          item => item.id === action.payload.id
-        );
-        if (index !== -1) {
-          const oldTransaction = state.items[index];
-          const newTransaction = action.payload;
-          const { amount: oldAmount, type: oldType } = oldTransaction;
-          const { amount: newAmount, type: newType } = newTransaction;
-
-          if (oldType === 'income') {
-            state.totalBalance -= oldAmount;
-          } else {
-            state.totalBalance += oldAmount;
-          }
-
-          if (newType === 'income') {
-            state.totalBalance += newAmount;
-          } else {
-            state.totalBalance -= newAmount;
-          }
-
-          state.items[index] = newTransaction;
-        }
+        state.isLoading = false;
+        state.error = null;
+        const index = state.items.findIndex(el => el.id === action.payload.id);
+        state.items.splice(index, 1, action.payload);
       })
       .addCase(deleteTransaction.fulfilled, (state, action) => {
         const { id, type, amount } = action.payload;
@@ -77,18 +82,17 @@ const transactionsSlice = createSlice({
         }
       })
       .addCase(fetchCategories.pending, state => {
-        state.loading = true;
         state.error = null;
       })
       .addCase(fetchCategories.fulfilled, (state, action) => {
         state.categories = action.payload.categories;
-        state.loading = false;
       })
       .addCase(fetchCategories.rejected, (state, action) => {
-        state.loading = false;
         state.error = action.payload;
       });
   },
 });
 
+export const { setTrasactionIdForDelete, setTrasactionForUpdate } =
+  transactionsSlice.actions;
 export default transactionsSlice.reducer;

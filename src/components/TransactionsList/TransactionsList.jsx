@@ -1,56 +1,38 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  fetchTransactions,
-  deleteTransaction,
-} from '../../redux/operations/transactionsOperations';
-import {
-  selectTransactions,
-  selectLoading,
-  selectError,
-} from '../../redux/selectors/transactionsSelector';
-import style from './TransactionsList.module.css';
-import TransactionsItem from '../TransactionsItem/TransactionsItem';
+import PropTypes from 'prop-types';
+import TransactionsItem from '../../components/TransactionsItem/TransactionsItem';
+import styles from './TransactionsList.module.css';
 
-const TransactionsList = () => {
-  const dispatch = useDispatch();
-  const transactions = useSelector(selectTransactions) || [];
-  const loading = useSelector(selectLoading);
-  const error = useSelector(selectError);
-
-  useEffect(() => {
-    dispatch(fetchTransactions());
-  }, [dispatch]);
-
-  const handleDelete = (id, type, amount) => {
-    dispatch(deleteTransaction({ id, type, amount }));
-  };
-
-  if (loading) return <p>Loading...</p>;
-  if (error) {
-    const errorMessage =
-      typeof error === 'object' && error.message
-        ? error.message
-        : JSON.stringify(error);
-    return <p>Error: {errorMessage}</p>;
-  }
-  if (Array.isArray(transactions) && transactions.length === 0) {
-    return <p>No transactions found.</p>;
-  }
+const TransactionsList = ({ data, openDeleteModal, openEditModal }) => {
+  // Sortează array-ul de tranzacții
+  const sortedData = [...data].sort((a, b) => {
+    // Sortare după dată
+    if (a.transactionDate < b.transactionDate) return -1;
+    if (a.transactionDate > b.transactionDate) return 1;
+    // Sortare după tipul de tranzacție (Income va fi primul)
+    if (a.type === 'INCOME' && b.type === 'EXPENSE') return -1;
+    if (a.type === 'EXPENSE' && b.type === 'INCOME') return 1;
+    // Dacă sunt la aceeași dată și același tip de tranzacție, nu se schimbă ordinea
+    return 0;
+  });
 
   return (
-    <div className={style['transactions-list']}>
-      {transactions.map(transaction => (
+    <ul className={styles.TransactionList}>
+      {sortedData.map(item => (
         <TransactionsItem
-          key={transaction.id}
-          transaction={transaction}
-          onDelete={() =>
-            handleDelete(transaction.id, transaction.type, transaction.amount)
-          }
+          key={item.id}
+          transaction={item}
+          openDeleteModal={openDeleteModal}
+          openEditModal={openEditModal}
         />
       ))}
-    </div>
+    </ul>
   );
+};
+
+TransactionsList.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.object).isRequired,
+  openDeleteModal: PropTypes.func.isRequired,
+  openEditModal: PropTypes.func.isRequired,
 };
 
 export default TransactionsList;

@@ -9,7 +9,6 @@ import Loader from 'components/Loader/Loader';
 import { Outlet } from 'react-router-dom';
 
 const DashboardPage = () => {
-  // const dispatch = useDispatch();
   const isTablet = useMediaQuery({ query: '(min-width: 768px)' });
 
   return (
