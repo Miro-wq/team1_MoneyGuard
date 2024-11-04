@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import CustomDropdown from '../CustomDropdown/CustomDropdown';
+import { getTransactionsSummaryByPeriod } from '../../redux/Statistics/operations';
 
 const StatisticsDashboard = () => {
-  const [selectedMonth, setSelectedMonth] = useState(11);
-  const [selectedYear, setSelectedYear] = useState(2024);
+  const dispatch = useDispatch();
+  const [selectedMonth, setSelectedMonth] = React.useState(11);
+  const [selectedYear, setSelectedYear] = React.useState(2024);
 
   const months = [
     { value: 1, label: 'January' },
@@ -28,6 +31,15 @@ const StatisticsDashboard = () => {
     { value: 2024, label: '2024' },
   ];
 
+  useEffect(() => {
+    dispatch(
+      getTransactionsSummaryByPeriod({
+        month: selectedMonth,
+        year: selectedYear,
+      })
+    );
+  }, [dispatch, selectedMonth, selectedYear]);
+
   return (
     <div style={{ display: 'flex', gap: '20px' }}>
       <CustomDropdown
@@ -40,6 +52,7 @@ const StatisticsDashboard = () => {
         selectedValue={selectedYear}
         onSelect={setSelectedYear}
       />
+      {/* Poți folosi transactionsSummary aici sau în StatisticsTable */}
     </div>
   );
 };
