@@ -2,7 +2,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: var(--button-gradient);
+  background: linear-gradient(
+    96.76deg,
+    #ffc727 -10.42%,
+    #9e40ba 90.04%,
+    #7000ff 140.71%
+  );
   border-radius: 100%;
   padding: 12px;
   position: fixed;

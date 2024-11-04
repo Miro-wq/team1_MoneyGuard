@@ -1,5 +1,5 @@
 import { Icon } from '../../Icons';
-import s from './ButtonAddTransactions.modules.css';
+import s from './ButtonAddTransactions.module.css';
 import { openAddModal } from '../../redux/Modals/slice';
 import { useDispatch } from 'react-redux';
 
@@ -12,7 +12,6 @@ const ButtonAddTransaction = () => {
         className={s.btn}
         type="button"
         onClick={() => {
-          console.log('Butonul a fost apăsat');
           dispatch(openAddModal());
         }}
       >
