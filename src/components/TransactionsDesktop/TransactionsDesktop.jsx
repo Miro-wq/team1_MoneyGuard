@@ -3,26 +3,20 @@ import TransactionsDesktopRow from '../../components/TransactionsDesktopRow/Tran
 import styles from './TransactionsDesktop.module.css';
 
 const TransactionsDesktop = ({ data, openDeleteModal, openEditModal }) => {
-  // Definim funcția de comparație pentru sortare:
   const compareTransactions = (a, b) => {
     const dateComparison =
       new Date(a.transactionDate) - new Date(b.transactionDate);
-    // Verificăm dacă tranzacțiile au aceeași dată:
     if (dateComparison === 0) {
-      // Dacă tranzacția A este de tip "Income", o afișăm înaintea celei de tip "Expense":
       if (a.type === 'INCOME' && b.type !== 'INCOME') {
         return -1;
       }
-      // Dacă tranzacția B este de tip "Income", o afișăm înaintea celei de tip "Expense":
       if (a.type !== 'INCOME' && b.type === 'INCOME') {
         return 1;
       }
     }
-    // Returnăm rezultatul comparării datelor:
     return dateComparison;
   };
 
-  // Sortăm datele utilizând funcția de comparație definită mai sus:
   const sortedData = [...data].sort(compareTransactions);
 
   return (

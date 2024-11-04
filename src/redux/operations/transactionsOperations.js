@@ -84,7 +84,26 @@ export const deleteTransaction = createAsyncThunk(
 export const fetchCategories = createAsyncThunk(
   'categories/fetch',
   async () => {
-    const response = await axios.get('/api/categories'); // pt api, inca nu e implementat!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    const response = await axios.get('/api/categories');
     return response.data;
+  }
+);
+
+// Fetch Transaction Categories
+export const fetchTransactionCategories = createAsyncThunk(
+  'transactions/fetchCategories',
+  async (_, { rejectWithValue }) => {
+    const token = localStorage.getItem('token');
+    try {
+      const response = await axios.get(`${BASE_URL}/transaction-categories`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      toast.error('Failed to load transaction categories');
+      return rejectWithValue(error.response?.data || error.message);
+    }
   }
 );

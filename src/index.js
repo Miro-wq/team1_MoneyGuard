@@ -8,10 +8,12 @@ import './index.css';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
+const basename =
+  process.env.NODE_ENV === 'production' ? '//team1_MoneyGuard' : '/';
 
 root.render(
   <Provider store={store}>
-    <BrowserRouter>
+    <BrowserRouter basename={basename}>
       <App />
     </BrowserRouter>
   </Provider>

@@ -22,6 +22,7 @@ const Home = () => {
   const data = useSelector(selectAllTransactions);
 
   useEffect(() => {
+    console.log('Data:', data);
     dispatch(fetchTransactions());
   }, [dispatch]);
 

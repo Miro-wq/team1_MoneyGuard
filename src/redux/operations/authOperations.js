@@ -55,7 +55,7 @@ export const getUserInfo = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const response = await axios.get(`${BASE_URL}/users/current`);
-
+      console.log('User Info:', response.data);
       return response.data;
     } catch (error) {
       console.log(error);
