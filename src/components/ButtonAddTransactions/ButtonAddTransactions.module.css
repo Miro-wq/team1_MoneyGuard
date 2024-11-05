@@ -13,6 +13,7 @@
   position: fixed;
   right: 40px;
   bottom: 40px;
+  border: none;
 }
 .btn:hover,
 .btn:focus {
