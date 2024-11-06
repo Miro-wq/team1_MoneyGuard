@@ -36,14 +36,15 @@ export const logout = createAsyncThunk(
   'auth/logout',
   async (_, { rejectWithValue }) => {
     try {
-      await axios.post(
-        '/api/sign-out',
+      const response = await axios.delete(
+        `${BASE_URL}/auth/sign-out`,
         {},
         {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         }
       );
-      localStorage.removeItem('token'); // Șterge token-ul din localStorage
+      localStorage.removeItem('token');
+      return response.data;
     } catch (error) {
       return rejectWithValue('Logout failed');
     }

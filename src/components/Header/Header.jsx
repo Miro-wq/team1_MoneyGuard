@@ -17,7 +17,7 @@ const Header = () => {
 
   const handleLogout = async () => {
     try {
-      await dispatch(logout()); // apelăm logoutUser din authSlice pentru deconectare
+      dispatch(logout()); // apelăm logoutUser din authSlice pentru deconectare
       localStorage.removeItem('token');
       navigate('/login');
     } catch (err) {
