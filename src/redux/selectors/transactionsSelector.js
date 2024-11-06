@@ -17,6 +17,21 @@ const categoryMapping = {
 const selectAllTransactions = state => state.transactions.items;
 const selectTotalBalance = state => state.transactions.totalBalance;
 const selectError = state => state.transactions.error;
+
+const selectUserIncome = createSelector(
+  //pentru income in statisticsTable
+  [selectAllTransactions],
+  transactions => {
+    const incomeCategoryId = Object.keys(categoryMapping).find(
+      key => categoryMapping[key] === 'Income'
+    );
+
+    return transactions
+      .filter(transaction => transaction.categoryId === incomeCategoryId)
+      .reduce((sum, transaction) => sum + transaction.amount, 0);
+  }
+);
+
 const selectTrasactionIdForDelete = state =>
   state.transactions.trasactionIdForDelete;
 
@@ -90,4 +105,5 @@ export {
   selectTransactionsByCategory,
   selectExpensesByCategory,
   selectTotalExpenses,
+  selectUserIncome,
 };

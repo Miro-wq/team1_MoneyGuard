@@ -4,14 +4,14 @@ import styles from './StatisticsTable.module.css';
 import {
   selectExpensesByCategory,
   selectTotalExpenses,
-  selectTotalBalance,
+  selectUserIncome,
 } from '../../redux/selectors/transactionsSelector';
 
 const StatisticsTable = () => {
   const expensesByCategory = useSelector(selectExpensesByCategory);
   const totalExpenses = useSelector(selectTotalExpenses);
-  const totalIncome = useSelector(selectTotalBalance);
-  console.log('totalIncome', totalIncome);
+  const totalIncome = useSelector(selectUserIncome);
+  console.log('Total income in StatisticsTable:', totalIncome);
 
   const categories = [
     { label: 'Main expenses', color: '#fed057' },
@@ -56,14 +56,19 @@ const StatisticsTable = () => {
         <tr className={styles.totalRow}>
           <td>Expenses:</td>
           <td className={`${styles.end} ${styles.expensesTotal}`}>
-            {totalExpenses}
+            {totalExpenses.toLocaleString('en-US', {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
           </td>
         </tr>
         <tr className={styles.incomeRow}>
           <td>Income:</td>
           <td className={`${styles.end} ${styles.incomeTotal}`}>
-            {totalIncome}{' '}
-            {/* =============================pregatit pentru income =================================*/}
+            {totalIncome.toLocaleString('en-US', {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
           </td>
         </tr>
       </tbody>
