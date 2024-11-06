@@ -8,12 +8,11 @@ import { formatNumberWithSpaces } from '../common/formatNumberWithSpaces';
 
 function Balance() {
   const dispatch = useDispatch();
+  const balance = useSelector(selectBalance);
 
   useEffect(() => {
     dispatch(getUserInfo());
   }, [dispatch]);
-
-  const balance = useSelector(selectBalance);
 
   return (
     <div className={styles.balance}>

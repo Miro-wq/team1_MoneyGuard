@@ -1,6 +1,6 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LoginPage from 'Pages/LoginPage/LoginPage';
@@ -12,18 +12,25 @@ import CurrencyTab from 'Pages/CurrencyTab/CurrencyTab';
 import PrivateRoutes from '../../routes/PrivateRoutes';
 import PublicRoutes from '../../routes/PublicRoutes';
 import Loader from 'components/Loader/Loader';
-import { user } from '../../redux/selectors/authSelectors';
+import { selectIsAuthenticated } from '../../redux/selectors/authSelectors';
 import { useMediaQuery } from 'react-responsive';
+import { refreshThunk } from '../../redux/Auth/operations';
 
 const App = () => {
-  const isAuthenticated = Boolean(useSelector(user));
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(refreshThunk());
+  }, [dispatch]);
+
+  const isAuthenticated = useSelector(selectIsAuthenticated);
   const isOnMobile = useMediaQuery({ query: '(max-width: 768px)' });
   // const isLoading = useSelector(auth.loading);
 
   // if (isLoading) {
   //   return <Loader />;
   // }
-
+  console.log(isAuthenticated);
   return (
     <>
       <Suspense fallback={<Loader />}>

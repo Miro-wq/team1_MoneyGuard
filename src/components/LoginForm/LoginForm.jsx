@@ -16,10 +16,10 @@ const LoginForm = () => {
     email: '',
     password: '',
   });
-  
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loading, error, user } = useSelector(auth);
+  const { loading, error, isAuthenticated } = useSelector(auth);
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(prev => !prev);
@@ -39,20 +39,27 @@ const LoginForm = () => {
   };
 
   useEffect(() => {
-    if (user) {
+    if (isAuthenticated) {
       navigate('/dashboard');
     }
+  }, [isAuthenticated, navigate]);
+
+  useEffect(() => {
     return () => dispatch(clearError());
-  }, [user, dispatch, navigate]);
+  }, [dispatch]);
 
   return (
     <div className={styles.modalOverlay}>
       <div className={styles.modalContent}>
         <img src={logo} alt="Logo" className={styles.logo} />
-        
+
         <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.inputField}>
-            <img src={iconEmail} alt="Email Icon" className={styles.inputIcon} />
+            <img
+              src={iconEmail}
+              alt="Email Icon"
+              className={styles.inputIcon}
+            />
             <input
               type="email"
               name="email"
