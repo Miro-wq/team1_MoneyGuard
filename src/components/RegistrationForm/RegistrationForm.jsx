@@ -11,7 +11,8 @@ import { auth } from '../../redux/selectors/authSelectors';
 
 const RegisterForm = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
+  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
+    useState(false);
   const [formErrors, setFormErrors] = useState({});
   const [registerData, setRegisterData] = useState({
     name: '',
@@ -22,14 +23,15 @@ const RegisterForm = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loading, error, user } = useSelector(auth);
+  const { loading, error, isAuthenticated } = useSelector(auth);
 
   const togglePasswordVisibility = () => setIsPasswordVisible(prev => !prev);
-  const toggleConfirmPasswordVisibility = () => setIsConfirmPasswordVisible(prev => !prev);
+  const toggleConfirmPasswordVisibility = () =>
+    setIsConfirmPasswordVisible(prev => !prev);
 
   const validateForm = () => {
     const errors = {};
-    
+
     if (!registerData.name.trim()) {
       errors.name = 'Name is required';
     }
@@ -69,7 +71,7 @@ const RegisterForm = () => {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    
+
     const errors = validateForm();
     if (Object.keys(errors).length > 0) {
       setFormErrors(errors);
@@ -87,13 +89,14 @@ const RegisterForm = () => {
   };
 
   useEffect(() => {
-    if (user) {
+    if (isAuthenticated) {
+      //trebuie isAuthenticated daca este true, nu doar daca exista un user
       navigate('/dashboard');
     }
     return () => {
       dispatch(clearError());
     };
-  }, [user, dispatch, navigate]);
+  }, [isAuthenticated, dispatch, navigate]);
 
   return (
     <div className={styles.modalOverlay}>
@@ -166,13 +169,17 @@ const RegisterForm = () => {
               required
             />
             <i
-              className={`fas ${isConfirmPasswordVisible ? 'fa-eye-slash' : 'fa-eye'}`}
+              className={`fas ${
+                isConfirmPasswordVisible ? 'fa-eye-slash' : 'fa-eye'
+              }`}
               onClick={toggleConfirmPasswordVisibility}
               style={{ cursor: 'pointer', marginLeft: '8px' }}
               aria-label="Toggle confirm password visibility"
             ></i>
             {formErrors.confirmPassword && (
-              <span className={styles.fieldError}>{formErrors.confirmPassword}</span>
+              <span className={styles.fieldError}>
+                {formErrors.confirmPassword}
+              </span>
             )}
             <div className={styles.strengthBarContainer}>
               <PasswordStrengthBar password={registerData.confirmPassword} />
