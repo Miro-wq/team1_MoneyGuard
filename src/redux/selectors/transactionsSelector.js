@@ -95,6 +95,8 @@ const selectTotalExpenses = createSelector(
   }
 );
 
+const selectSummaryByPeriod = state => state.statistics.summaryByPeriod;
+
 export {
   selectAllTransactions,
   selectTotalBalance,
@@ -106,4 +108,5 @@ export {
   selectExpensesByCategory,
   selectTotalExpenses,
   selectUserIncome,
+  selectSummaryByPeriod,
 };

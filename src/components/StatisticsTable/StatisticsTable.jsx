@@ -1,17 +1,15 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import styles from './StatisticsTable.module.css';
-import {
-  selectExpensesByCategory,
-  selectTotalExpenses,
-  selectUserIncome,
-} from '../../redux/selectors/transactionsSelector';
+import { selectSummaryByPeriod } from '../../redux/selectors/transactionsSelector';
 
 const StatisticsTable = () => {
-  const expensesByCategory = useSelector(selectExpensesByCategory);
-  const totalExpenses = useSelector(selectTotalExpenses);
-  const totalIncome = useSelector(selectUserIncome);
-  console.log('Total income in StatisticsTable:', totalIncome);
+  const summaryByPeriod = useSelector(selectSummaryByPeriod);
+  console.log('Summary by period:', summaryByPeriod);
+
+  const totalIncome = summaryByPeriod?.incomeSummary || 0;
+  const totalExpenses = summaryByPeriod?.expenseSummary || 0;
+  const expensesByCategory = summaryByPeriod?.categoriesSummary || [];
 
   const categories = [
     { label: 'Main expenses', color: '#fed057' },
@@ -21,7 +19,6 @@ const StatisticsTable = () => {
     { label: 'Child care', color: '#8F9BFF' },
     { label: 'Household products', color: '#6E7FFF' },
     { label: 'Education', color: '#65E2FF' },
-    { label: 'Leisure', color: '#47D5A4' },
     { label: 'Other expenses', color: '#28B491' },
   ];
 
@@ -34,25 +31,30 @@ const StatisticsTable = () => {
         </tr>
       </thead>
       <tbody>
-        {categories.map(({ label, color }) => (
-          <tr key={label}>
-            <td>
-              <span
-                className={styles.colorBox}
-                style={{ backgroundColor: color }}
-              ></span>
-              {label}
-            </td>
-            <td className={styles.end}>
-              {expensesByCategory[label]
-                ? expensesByCategory[label].toLocaleString('en-US', {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  })
-                : '0.00'}
-            </td>
-          </tr>
-        ))}
+        {categories.map(({ label, color }) => {
+          const categoryData = expensesByCategory.find(
+            category => category.name.toLowerCase() === label.toLowerCase()
+          );
+          const amount = categoryData ? Math.abs(categoryData.total) : 0;
+
+          return (
+            <tr key={label} className={styles.tableRow}>
+              <td>
+                <span
+                  className={styles.colorBox}
+                  style={{ backgroundColor: color }}
+                ></span>
+                {label}
+              </td>
+              <td className={styles.end}>
+                {amount.toLocaleString('en-US', {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+              </td>
+            </tr>
+          );
+        })}
         <tr className={styles.totalRow}>
           <td>Expenses:</td>
           <td className={`${styles.end} ${styles.expensesTotal}`}>

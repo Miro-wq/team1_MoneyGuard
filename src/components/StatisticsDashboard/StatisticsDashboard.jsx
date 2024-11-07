@@ -1,12 +1,16 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import CustomDropdown from '../CustomDropdown/CustomDropdown';
 import { getTransactionsSummaryByPeriod } from '../../redux/Statistics/operations';
+import {
+  setSelectedMonth,
+  setSelectedYear,
+} from '../../redux/Statistics/slice';
 
 const StatisticsDashboard = () => {
   const dispatch = useDispatch();
-  const [selectedMonth, setSelectedMonth] = React.useState(11);
-  const [selectedYear, setSelectedYear] = React.useState(2024);
+  const selectedMonth = useSelector(state => state.statistics.selectedMonth);
+  const selectedYear = useSelector(state => state.statistics.selectedYear);
 
   const months = [
     { value: 1, label: 'January' },
@@ -40,17 +44,25 @@ const StatisticsDashboard = () => {
     );
   }, [dispatch, selectedMonth, selectedYear]);
 
+  const handleMonthChange = month => {
+    dispatch(setSelectedMonth(month));
+  };
+
+  const handleYearChange = year => {
+    dispatch(setSelectedYear(year));
+  };
+
   return (
     <div style={{ display: 'flex', gap: '20px' }}>
       <CustomDropdown
         options={months}
         selectedValue={selectedMonth}
-        onSelect={setSelectedMonth}
+        onSelect={handleMonthChange}
       />
       <CustomDropdown
         options={years}
         selectedValue={selectedYear}
-        onSelect={setSelectedYear}
+        onSelect={handleYearChange}
       />
     </div>
   );
