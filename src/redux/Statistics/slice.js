@@ -5,7 +5,7 @@ import {
 } from './operations';
 
 const initialState = {
-  summaryByPeriod: {},
+  summaryByPeriod: [],
   categories: [],
   selectedMonth: new Date().getMonth() + 1,
   selectedYear: new Date().getFullYear(),
