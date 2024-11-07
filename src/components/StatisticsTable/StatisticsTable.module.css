@@ -1,5 +1,6 @@
 .statisticsTable {
   width: 100%;
+  margin-top: 20px;
   border-collapse: collapse;
   color: #ffffff;
   font-family: Arial, sans-serif;
@@ -7,12 +8,32 @@
 
 .tableHead {
   color: #fbfbfb;
-  background: #523b7e99;
   box-shadow: 0px 4px 60px 0px #00000040;
   backdrop-filter: blur(50px);
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  overflow: hidden;
+  position: relative;
 }
 
-tr {
+.tableHead:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #523b7e99;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  z-index: -1;
+}
+
+.tableRow {
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -38,6 +59,7 @@ tr {
   font-weight: bold;
   color: #ffffff;
   opacity: 0.7;
+  padding: 17px;
 }
 
 .statisticsTable tbody tr td:first-child {
@@ -55,7 +77,6 @@ tr {
 .totalRow,
 .incomeRow {
   font-weight: bold;
-  border-top: 1px solid #ffffff33;
 }
 
 .totalRow td,

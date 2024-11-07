@@ -1,4 +1,3 @@
-/*Temporar*/
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 import {
   getTransactionsCategories,
@@ -6,8 +5,10 @@ import {
 } from './operations';
 
 const initialState = {
-  summary: [],
+  summaryByPeriod: {},
   categories: [],
+  selectedMonth: new Date().getMonth() + 1,
+  selectedYear: new Date().getFullYear(),
   isStatisticsLoading: false,
   isStatisticsError: null,
 };
@@ -15,19 +16,25 @@ const initialState = {
 const slice = createSlice({
   name: 'statistics',
   initialState,
+  reducers: {
+    setSelectedMonth: (state, action) => {
+      state.selectedMonth = action.payload;
+    },
+    setSelectedYear: (state, action) => {
+      state.selectedYear = action.payload;
+    },
+  },
   extraReducers: builder => {
     builder
-
       .addCase(getTransactionsCategories.fulfilled, (state, action) => {
         state.isStatisticsLoading = false;
-        console.log(action.payload);
         state.categories = action.payload;
       })
       .addCase(
         getTransactionsSummaryByPeriod.fulfilled,
         (state, { payload }) => {
           state.isStatisticsLoading = false;
-          state.summary = payload;
+          state.summaryByPeriod = payload;
         }
       )
       .addMatcher(
@@ -53,4 +60,5 @@ const slice = createSlice({
   },
 });
 
+export const { setSelectedMonth, setSelectedYear } = slice.actions;
 export const statisticsReducer = slice.reducer;
