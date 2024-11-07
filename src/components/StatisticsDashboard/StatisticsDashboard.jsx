@@ -6,6 +6,7 @@ import {
   setSelectedMonth,
   setSelectedYear,
 } from '../../redux/Statistics/slice';
+import styles from './StatisticsDashboard.module.css';
 
 const StatisticsDashboard = () => {
   const dispatch = useDispatch();
@@ -53,7 +54,7 @@ const StatisticsDashboard = () => {
   };
 
   return (
-    <div style={{ display: 'flex', gap: '20px' }}>
+    <div className={styles.statisticsDashboard}>
       <CustomDropdown
         options={months}
         selectedValue={selectedMonth}
