@@ -25,3 +25,21 @@
   display: flex;
   gap: 3em;
 }
+
+@media screen and (max-width: 1280px) {
+  .staticAll {
+    position: relative;
+    gap: 4em;
+    justify-content: center;
+    width: 100vw;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .staticAll {
+    position: relative;
+    flex-direction: column;
+    align-items: center;
+    top: 40px;
+  }
+}

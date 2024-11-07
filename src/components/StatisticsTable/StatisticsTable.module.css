@@ -94,3 +94,6 @@
   font-weight: bold;
   color: #ffffff;
 }
+
+@media screen and (max-width: 1280px) {
+}

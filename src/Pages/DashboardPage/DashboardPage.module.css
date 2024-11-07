@@ -21,6 +21,7 @@
     min-height: calc(100dvh - 104px);
     padding-left: 32px;
     padding-right: 32px;
+    overflow: auto;
   }
 
   .sharedSectionElements {

@@ -71,3 +71,9 @@
   background-color: #5a5a6e;
   border-radius: 8px;
 }
+
+@media screen and (max-width: 768px) {
+  .dropdown {
+    width: 20em;
+  }
+}

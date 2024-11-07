@@ -6,6 +6,7 @@ import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { selectExpensesByCategory } from '../../redux/selectors/transactionsSelector';
 import { getUserInfo } from '../../redux/operations/authOperations';
+import styles from './Chart.module.css';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -66,7 +67,7 @@ const Chart = () => {
   };
 
   return (
-    <div style={{ position: 'relative', width: '300px', height: '300px' }}>
+    <div className={styles.chartContainer}>
       <Doughnut data={data} options={options} />
       <div
         style={{
