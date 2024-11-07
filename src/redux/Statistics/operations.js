@@ -6,20 +6,20 @@ import {
 } from '../../config/userTransactionsApi';
 
 export const getTransactionsSummaryByPeriod = createAsyncThunk(
-  'transactions/summary',
+  'statistics/getTransactionsSummaryByPeriod',
   async ({ month, year }, thunkApi) => {
     const savedToken = thunkApi.getState().auth.token;
     if (savedToken) {
       setToken(savedToken);
-    } else {
-      return thunkApi.rejectWithValue('Unable to fetch');
     }
     try {
       const { data } = await userTransactionsApi.get(
         `/api/transactions-summary?month=${month}&year=${year}`
       );
+      console.log('Răspuns de la API pentru period summary:', data);
       return data;
     } catch (error) {
+      console.error('Eroare la obținerea datelor:', error);
       return thunkApi.rejectWithValue(error.message);
     }
   }

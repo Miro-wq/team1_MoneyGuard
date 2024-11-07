@@ -52,7 +52,6 @@ const StatisticsDashboard = () => {
         selectedValue={selectedYear}
         onSelect={setSelectedYear}
       />
-      {/* Poți folosi transactionsSummary aici sau în StatisticsTable */}
     </div>
   );
 };
