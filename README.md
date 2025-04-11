@@ -1,9 +1,6 @@
-# ✨ MoneyGuard ✨
-
 ![Description](https://img.shields.io/badge/Description-purple?style=for-the-badge)
 
->MoneyGuard is a collaborative project developed by a team to provide users with an efficient and user-friendly financial tracking application. The app helps users manage their expenses, set budgets, and gain insights into their financial habits. This project was developed as part of a group effort, demonstrating teamwork and a commitment to creating a practical tool for personal finance management.
->
+MoneyGuard is a collaborative project developed by a team to provide users with an efficient and user-friendly financial tracking application. The app helps users manage their expenses, set budgets, and gain insights into their financial habits. This project was developed as part of a group effort, demonstrating teamwork and a commitment to creating a practical tool for personal finance management.
 
 ## 🛠 Tools used:
 [![My Skills](https://skillicons.dev/icons?i=nodejs,npm,webpack,js,html,css,)](https://skillicons.dev)
